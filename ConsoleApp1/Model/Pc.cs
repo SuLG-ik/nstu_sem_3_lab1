@@ -1,6 +1,6 @@
 namespace ConsoleApp1.Model;
 
-class Pc : Equipment
+public class Pc : Equipment
 {
     private Pc(string brand, string cpu, int ram, int cost) : base(brand, cpu, ram, cost)
     {

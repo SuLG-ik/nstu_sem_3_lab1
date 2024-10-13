@@ -172,3 +172,9 @@
 /Users/volodya/RiderProjects/ConsoleApp1/ConsoleApp1.Tests/obj/Debug/net8.0/ConsoleApp1.Tests.pdb
 /Users/volodya/RiderProjects/ConsoleApp1/ConsoleApp1.Tests/obj/Debug/net8.0/ConsoleApp1.Tests.genruntimeconfig.cache
 /Users/volodya/RiderProjects/ConsoleApp1/ConsoleApp1.Tests/obj/Debug/net8.0/ref/ConsoleApp1.Tests.dll
+/Users/volodya/RiderProjects/ConsoleApp1/ConsoleApp1.Tests/obj/Debug/net8.0/ConsoleApp1.Tests.sourcelink.json
+/Users/volodya/RiderProjects/ConsoleApp1/ConsoleApp1.Tests/bin/Debug/net8.0/Castle.Core.dll
+/Users/volodya/RiderProjects/ConsoleApp1/ConsoleApp1.Tests/bin/Debug/net8.0/Moq.dll
+/Users/volodya/RiderProjects/ConsoleApp1/ConsoleApp1.Tests/bin/Debug/net8.0/System.Diagnostics.EventLog.dll
+/Users/volodya/RiderProjects/ConsoleApp1/ConsoleApp1.Tests/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Diagnostics.EventLog.Messages.dll
+/Users/volodya/RiderProjects/ConsoleApp1/ConsoleApp1.Tests/bin/Debug/net8.0/runtimes/win/lib/net6.0/System.Diagnostics.EventLog.dll

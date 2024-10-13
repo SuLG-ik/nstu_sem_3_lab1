@@ -1,41 +1,80 @@
+using ConsoleApp1.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.IO;
 
-namespace EquipmentTests
+namespace ConsoleApp1.Tests;
+
+[TestClass]
+public class PcTests
 {
-    [TestClass]
-    public class PcTests
+    [TestMethod]
+    public void PcBuilder_ShouldBuildPc_WhenAllValuesAreValid()
     {
-        [TestMethod]
-        public void Pc_Should_StoreCorrectInfo()
-        {
-            var brand = "Lenovo";
-            var cpu = "Intel i5";
-            var ram = 8;
-            var cost = 50000;
+        // Act
+        var pc = new Pc.Builder()
+            .SetBrand("Acer")
+            .SetCpu("Intel i9")
+            .SetRam(32)
+            .SetCost(2000)
+            .Build();
 
-            var equipment = new Pc(brand, cpu, ram, cost);
+        // Assert
+        Assert.AreEqual("Acer", pc.Brand);
+        Assert.AreEqual("Intel i9", pc.Cpu);
+        Assert.AreEqual(32, pc.Ram);
+        Assert.AreEqual(2000, pc.Cost);
+    }
 
-            Assert.AreEqual(brand, equipment.Brand);
-            Assert.AreEqual(cpu, equipment.CPU);
-            Assert.AreEqual(ram, equipment.RAM);
-            Assert.AreEqual(cost, equipment.Cost);
-        }
+    [TestMethod]
+    public void PcBuilder_ShouldThrowException_WhenBrandIsBlank()
+    {
+        // Act & Assert
+        Assert.ThrowsException<ValidationNotBlankException>(() => 
+            new Pc.Builder().SetBrand("").Build()
+        );
+    }
 
+    [TestMethod]
+    public void PcBuilder_ShouldThrowException_WhenCpuIsBlank()
+    {
+        // Act & Assert
+        Assert.ThrowsException<ValidationNotBlankException>(() => 
+            new Pc.Builder().SetCpu("").Build()
+        );
+    }
 
-        [TestMethod]
-        public void Pc_Should_PrintCorrectInfo()
-        {
-            var laptop = new Pc("HP", "Intel i5", 8, 60000);
-            var consoleOutput = new StringWriter();
-            Console.SetOut(consoleOutput);
+    [TestMethod]
+    public void PcBuilder_ShouldThrowException_WhenRamIsNotPositive()
+    {
+        // Act & Assert
+        Assert.ThrowsException<ValidationNotCourseInException<int>>(() => 
+            new Pc.Builder().SetRam(0).Build()
+        );
+    }
 
-            laptop.PrintInfo();
-            var output = consoleOutput.ToString();
+    [TestMethod]
+    public void PcBuilder_ShouldThrowException_WhenCostIsNegative()
+    {
+        // Act & Assert
+        Assert.ThrowsException<ValidationNotCourseInException<int>>(() => 
+            new Pc.Builder().SetCost(-100).Build()
+        );
+    }
 
-            StringAssert.Contains(output, "Тип: Персональный компьютер, Бренд: HP, Процессор: Intel i5, ОЗУ: 8 Гб, Цена: 60000 руб.");
-            StringAssert.Contains(output, "");
-        }
+    [TestMethod]
+    public void PcToString_ShouldReturnFormattedString()
+    {
+        // Arrange
+        var pc = new Pc.Builder()
+            .SetBrand("Dell")
+            .SetCpu("AMD Ryzen 9")
+            .SetRam(64)
+            .SetCost(3000)
+            .Build();
+
+        // Act
+        var result = pc.ToString();
+
+        // Assert
+        Assert.AreEqual("Персональный компьютер: бренд: Dell, CPU: AMD Ryzen 9, RAM: 64, стоимость: 3000", result);
     }
 }

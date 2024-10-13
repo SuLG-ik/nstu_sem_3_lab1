@@ -1,41 +1,80 @@
+using ConsoleApp1.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.IO;
 
-namespace EquipmentTests
+namespace ConsoleApp1.Tests;
+
+[TestClass]
+public class EquipmentTests
 {
-    [TestClass]
-    public class EquipmentTests
+    [TestMethod]
+    public void EquipmentBuilder_ShouldBuildEquipment_WhenAllValuesAreValid()
     {
-        [TestMethod]
-        public void Equipment_Should_StoreCorrectInfo()
-        {
-            string brand = "Lenovo";
-            string cpu = "Intel i5";
-            int ram = 8;
-            int cost = 50000;
+        // Act
+        var equipment = new Equipment.Builder()
+            .SetBrand("Dell")
+            .SetCpu("Intel i7")
+            .SetRam(16)
+            .SetCost(1000)
+            .Build();
 
-            Equipment equipment = new Equipment(brand, cpu, ram, cost);
+        // Assert
+        Assert.AreEqual("Dell", equipment.Brand);
+        Assert.AreEqual("Intel i7", equipment.Cpu);
+        Assert.AreEqual(16, equipment.Ram);
+        Assert.AreEqual(1000, equipment.Cost);
+    }
 
-            Assert.AreEqual(brand, equipment.Brand);
-            Assert.AreEqual(cpu, equipment.CPU);
-            Assert.AreEqual(ram, equipment.RAM);
-            Assert.AreEqual(cost, equipment.Cost);
-        }
+    [TestMethod]
+    public void EquipmentBuilder_ShouldThrowException_WhenBrandIsBlank()
+    {
+        // Act & Assert
+        Assert.ThrowsException<ValidationNotBlankException>(() => 
+            new Equipment.Builder().SetBrand("").Build()
+        );
+    }
 
-        [TestMethod]
-        public void Equipment_Should_PrintCorrectInfo()
-        {
-            var pc = new Pc("Dell", "Intel i7", 16, 70000);
-            var consoleOutput = new StringWriter();
-            Console.SetOut(consoleOutput);
+    [TestMethod]
+    public void EquipmentBuilder_ShouldThrowException_WhenCpuIsBlank()
+    {
+        // Act & Assert
+        Assert.ThrowsException<ValidationNotBlankException>(() => 
+            new Equipment.Builder().SetCpu("").Build()
+        );
+    }
 
-            pc.PrintInfo();
-            var output = consoleOutput.ToString();
+    [TestMethod]
+    public void EquipmentBuilder_ShouldThrowException_WhenRamIsNotPositive()
+    {
+        // Act & Assert
+        Assert.ThrowsException<ValidationNotCourseInException<int>>(() => 
+            new Equipment.Builder().SetRam(0).Build()
+        );
+    }
 
-            StringAssert.Contains(output, "Бренд: Dell, Процессор: Intel i7, ОЗУ: 16 Гб, Цена: 70000 руб.");
-            StringAssert.Contains(output, "");
-        }
-        
+    [TestMethod]
+    public void EquipmentBuilder_ShouldThrowException_WhenCostIsNegative()
+    {
+        // Act & Assert
+        Assert.ThrowsException<ValidationNotCourseInException<int>>(() => 
+            new Equipment.Builder().SetCost(-100).Build()
+        );
+    }
+
+    [TestMethod]
+    public void EquipmentToString_ShouldReturnFormattedString()
+    {
+        // Arrange
+        var equipment = new Equipment.Builder()
+            .SetBrand("HP")
+            .SetCpu("AMD Ryzen 5")
+            .SetRam(8)
+            .SetCost(800)
+            .Build();
+
+        // Act
+        var result = equipment.ToString();
+
+        // Assert
+        Assert.AreEqual("Компьютерная техника: бренд: HP, CPU: AMD Ryzen 5, RAM: 8, стоимость: 800", result);
     }
 }
